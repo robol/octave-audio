@@ -8,6 +8,30 @@ It was originally written to allow to easily
 read and write multichannel audio from/to WAV
 files. 
 
+## Quick guide
+
+If you have Octave audio installed you can use it
+in the following way: 
+```
+ % This call returns a c x n matrix where c is the number
+ % of audio channels and n the number of samples. 
+ % frequency is the frequency of the original audio
+ % file. 
+ >> [data, frequency] = sndread ('test.wav');
+
+ % Listen to the signal. 
+ >> sndplay (data, frequency);
+
+ % We apply some filter on every channel.
+ >> filtered_signal = zeros (size(data));
+ >> for i = 1 : size(data, 1)
+  ... filtered_signal(i,:) = conv (data(i,:), my_filter, 'same');
+ end
+ 
+ % We write back the file to a WAV file. 
+ >> sndwrite ('filtered_test.wav', filtered_signal, frequency);
+```
+
 ## How to obtain it
 
 You can download it from Github, and compiling by
