@@ -1,5 +1,6 @@
 #include <mex.h>
 #include <sndfile.h>
+#include <string.h>
 
 void mexFunction (int nlhs, mxArray * plhs[], 
 		  int nrhs, const mxArray * prhs[])
@@ -22,14 +23,14 @@ void mexFunction (int nlhs, mxArray * plhs[],
   
   if (nrhs < 1)
     {
-      mexErrMsgTxt ("you need "
-		    "to specify a valid filename");
+      mexErrMsgTxt ("You need to specify a "
+		    "valid filename");
     }
 
-  if (nrhs < 2)
+  if (nrhs < 2 || ! mxIsDouble (prhs[1]))
     {
-      mexErrMsgTxt ("you need "
-		    "to specify a vector with the samples");
+      mexErrMsgTxt ("You need to specify a floating point matrix"
+		    " with the samples");
     }
 
   if (nrhs >= 3)
@@ -80,7 +81,7 @@ void mexFunction (int nlhs, mxArray * plhs[],
 
   if (sf == NULL)
     {
-      mexErrMsgTxt ("SNDREAD: Error opening the output file");      
+      mexErrMsgTxt ("Error opening the output file");      
     }
 
   /* Notice that since Octave stores the arrays by columns in this way

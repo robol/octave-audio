@@ -1,4 +1,15 @@
+MEX = mkoctfile --mex
 MEXEXT=.mex
+
+# Use the following if you want to compile the package
+# for MATLAB. Notice that C99 is required in order
+# to be able to compile against the Pulse headers. 
+#
+# Notice that in this case you also need to adjust the
+# extension to the one used on your architecture. 
+#
+# MEX = mex CFLAGS="\$$CFLAGS -std=c99"
+# MEXEXT = .mexa64
 
 MEX_FILES = \
 	sndplay$(MEXEXT) \
@@ -11,8 +22,6 @@ M_FILES = \
 	sndread.m \
 	sndwrite.m 
 
-MKOCTFILE = mkoctfile
-
 all: $(MEX_FILES) octave-sound.tar.gz
 
 octave-sound.tar.gz: $(MEX_FILES)
@@ -23,7 +32,7 @@ octave-sound.tar.gz: $(MEX_FILES)
 	tar czf octave-sound.tar.gz octave-sound/
 
 %$(MEXEXT): %.c
-	$(MKOCTFILE) --mex $< -L. -lsndfile -lpulse-simple -Wl,-R.
+	$(MEX) $< -L. -lsndfile -lpulse-simple -Wl,-R.
 
 clean:
 	rm -rf $(MEX_FILES) *.o octave-sound.tar.gz octave-sound/
