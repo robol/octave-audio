@@ -8,8 +8,9 @@ MEXEXT=.mex
 # Notice that in this case you also need to adjust the
 # extension to the one used on your architecture. 
 #
-# MEX = mex CFLAGS="\$$CFLAGS -std=c99"
-# MEXEXT = .mexa64
+#MEX = mex CFLAGS="\$$CFLAGS -std=c99"
+#MEXEXT = .mexa64
+#LDFLAGS="-lut"
 
 MEX_FILES = \
 	sndplay$(MEXEXT) \
@@ -32,7 +33,7 @@ octave-sound.tar.gz: $(MEX_FILES)
 	tar czf octave-sound.tar.gz octave-sound/
 
 %$(MEXEXT): %.c
-	$(MEX) $< -L. -lsndfile -lpulse-simple -Wl,-R.
+	$(MEX) $< -L. -lsndfile -lpulse-simple -Wl,-R. $(LDFLAGS)
 
 clean:
 	rm -rf $(MEX_FILES) *.o octave-sound.tar.gz octave-sound/
